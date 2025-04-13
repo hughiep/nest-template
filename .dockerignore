@@ -1,0 +1,14 @@
+.git
+.gitignore
+node_modules
+dist
+coverage
+.env
+.env.*
+*.md
+.prettierrc
+.eslintrc
+docker-compose*
+Dockerfile*
+npm-debug.log*
+pnpm-debug.log*

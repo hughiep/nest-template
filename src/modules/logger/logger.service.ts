@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   createLogger,
   format,
@@ -7,13 +8,17 @@ import {
   Logger as WinstonLogger,
 } from 'winston';
 
+import { NodeEnv } from '../../config/schemas/env.schema';
+
 @Injectable()
 export class LoggerService {
   private logger: WinstonLogger;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
+    const nodeEnv = this.configService.get('NODE_ENV');
+
     this.logger = createLogger({
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+      level: nodeEnv === NodeEnv.Production ? 'info' : 'debug',
       format: format.combine(
         format.timestamp(),
         format.errors({ stack: true }),

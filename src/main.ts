@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
 
 async function server() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
 
   // Configure CORS
   app.enableCors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') || [
-      'http://localhost:3000',
-    ],
+    origin: configService.get('ALLOWED_ORIGINS').split(','),
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true,
@@ -42,8 +42,11 @@ async function server() {
     },
   });
 
-  console.log('Server started', process.env.PORT);
-  await app.listen(process.env.PORT || 3000);
+  const port = configService.get('PORT');
+  await app.listen(port);
+
+  const nodeEnv = configService.get('NODE_ENV');
+  console.log(`Application is running in ${nodeEnv} mode on port ${port}`);
 }
 
 server();

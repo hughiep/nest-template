@@ -9,6 +9,10 @@
 		"pnpm": ">=10"
 	},
 	"scripts": {
+		"typeorm": "typeorm",
+		"migration:generate": "typeorm migration:generate -n",
+		"migration:run": "typeorm migration:run",
+		"migration:revert": "typeorm migration:revert",
 		"build": "nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
 		"start": "nest start",
@@ -32,15 +36,18 @@
 		"@nestjs/swagger": "^11.1.2",
 		"@nestjs/terminus": "^11.0.0",
 		"@nestjs/throttler": "^6.4.0",
+		"@nestjs/typeorm": "^11.0.0",
 		"@types/morgan": "^1.9.9",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.14.1",
 		"helmet": "^8.1.0",
 		"morgan": "^1.10.0",
 		"nest-winston": "^1.10.2",
+		"pg": "^8.14.1",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.2",
 		"swagger-ui-express": "^5.0.1",
+		"typeorm": "^0.3.22",
 		"winston": "^3.17.0"
 	},
 	"devDependencies": {
@@ -70,6 +77,7 @@
 		"ts-loader": "^9.5.2",
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
+		"typeorm-cli": "^1.0.7",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.29.1"
 	},

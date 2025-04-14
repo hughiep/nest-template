@@ -1,10 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AppService } from './app.service';
+import { CreateAppDto, UpdateAppDto } from './dto/app.dto';
 
 @ApiTags('General')
-@Controller()
+@Controller('app')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -39,5 +40,15 @@ export class AppController {
   })
   getHealth(): object {
     return { status: 'ok' };
+  }
+
+  @Post()
+  async create(@Body() createAppDto: CreateAppDto) {
+    return this.appService.create(createAppDto);
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: number, @Body() updateAppDto: UpdateAppDto) {
+    return this.appService.update(id, updateAppDto);
   }
 }

@@ -34,4 +34,20 @@ export class EnvironmentVariables {
   @IsString()
   @IsOptional()
   API_VERSION?: string = '1.0';
+
+  // Database configuration
+  @IsString()
+  DB_HOST: string;
+
+  @IsNumber()
+  DB_PORT: number;
+
+  @IsString()
+  DB_USER: string;
+
+  @IsString()
+  DB_PASSWORD: string;
+
+  @IsString()
+  DB_NAME: string;
 }

@@ -5,6 +5,7 @@ import {
   HttpHealthIndicator,
   MemoryHealthIndicator,
   DiskHealthIndicator,
+  TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
@@ -16,6 +17,7 @@ export class HealthController {
     private http: HttpHealthIndicator,
     private memory: MemoryHealthIndicator,
     private disk: DiskHealthIndicator,
+    private db: TypeOrmHealthIndicator,
   ) {}
 
   @Get()
@@ -30,6 +32,8 @@ export class HealthController {
       // Disk storage check
       () =>
         this.disk.checkStorage('disk', { path: '/', thresholdPercent: 0.75 }),
+      // PostgreSQL database check
+      () => this.db.pingCheck('database'),
       // External API check example (uncomment and modify as needed)
       // () => this.http.pingCheck('external_api', 'https://api.example.com'),
     ]);

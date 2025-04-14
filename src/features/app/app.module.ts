@@ -3,12 +3,21 @@ import { CoreModule } from '@core/core.module';
 import { SharedModule } from '@shared/shared.module';
 import { HealthModule } from '@features/health/health.module';
 import { HttpLoggerMiddleware } from '@core/logger/http-logger.middleware';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseModule } from '@core/config/database.module';
 
+import { AppEntity } from './app.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [CoreModule, SharedModule, HealthModule],
+  imports: [
+    CoreModule,
+    SharedModule,
+    HealthModule,
+    DatabaseModule,
+    TypeOrmModule.forFeature([AppEntity]),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

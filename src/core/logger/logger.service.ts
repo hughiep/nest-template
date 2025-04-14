@@ -7,8 +7,7 @@ import {
   transports,
   Logger as WinstonLogger,
 } from 'winston';
-
-import { NodeEnv } from '../../config/schemas/env.schema';
+import { NodeEnv } from '@core/config/schemas/env.schema';
 
 @Injectable()
 export class LoggerService {

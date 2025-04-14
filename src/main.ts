@@ -1,12 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-
-import { AppModule } from './app.module';
+import { AppModule } from '@features/app/app.module';
+import { HttpExceptionFilter } from '@shared/filters/http-exception.filter';
 
 async function server() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
+  // Apply global exception filter
+  const exceptionFilter = app.get(HttpExceptionFilter);
+  app.useGlobalFilters(exceptionFilter);
 
   // Configure CORS
   app.enableCors({

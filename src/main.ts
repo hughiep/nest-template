@@ -1,12 +1,28 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from '@features/app/app.module';
 import { HttpExceptionFilter } from '@shared/filters/http-exception.filter';
+import { ThrottlerGuard } from '@nestjs/throttler';
+import helmet from 'helmet';
 
 async function server() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
+  // Security
+  app.use(helmet());
+  app.useGlobalGuards(app.get(ThrottlerGuard));
+
+  // Apply global pipes and filters
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Strip properties that don't have decorators
+      transform: true, // Transform payloads to DTO instances
+      forbidNonWhitelisted: true, // Throw errors if non-whitelisted properties are present
+    }),
+  );
 
   // Apply global exception filter
   const exceptionFilter = app.get(HttpExceptionFilter);

@@ -21,4 +21,23 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('/health')
+  @ApiOperation({ summary: 'Get health status' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns a health status',
+    schema: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          example: 'ok',
+        },
+      },
+    },
+  })
+  getHealth(): object {
+    return { status: 'ok' };
+  }
 }

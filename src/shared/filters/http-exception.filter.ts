@@ -21,7 +21,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
     const message = exception.message || 'Internal server error';
 
-    this.logger.error(`HTTP Exception: ${message}`, { status });
+    // Only log server errors (500+) since client errors are handled by middleware
+    if (status >= HttpStatus.INTERNAL_SERVER_ERROR) {
+      this.logger.error(`HTTP Exception: ${message}`, { status });
+    }
 
     response.status(status).json({
       statusCode: status,

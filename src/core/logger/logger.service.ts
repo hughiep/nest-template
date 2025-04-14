@@ -31,6 +31,7 @@ export class LoggerService {
         new transports.File({ filename: 'logs/combined.log' }),
         // Write all logs to console in development
         new transports.Console({
+          level: nodeEnv === NodeEnv.Production ? 'info' : 'debug',
           format: format.combine(
             format.colorize(),
             format.printf(

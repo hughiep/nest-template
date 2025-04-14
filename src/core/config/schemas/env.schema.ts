@@ -18,4 +18,20 @@ export class EnvironmentVariables {
   @IsString()
   @IsOptional()
   ALLOWED_ORIGINS?: string = 'http://localhost:3000';
+
+  @IsString()
+  @IsOptional()
+  API_PREFIX?: string = 'api';
+
+  @IsString()
+  @IsOptional()
+  API_TITLE?: string = 'NestJS API';
+
+  @IsString()
+  @IsOptional()
+  API_DESCRIPTION?: string = 'NestJS API Description';
+
+  @IsString()
+  @IsOptional()
+  API_VERSION?: string = '1.0';
 }

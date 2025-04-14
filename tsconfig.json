@@ -22,6 +22,10 @@
 		"noImplicitAny": false,
 		"strictBindCallApply": false,
 		"forceConsistentCasingInFileNames": false,
-		"noFallthroughCasesInSwitch": false
-	}
+		"noFallthroughCasesInSwitch": false,
+		"moduleResolution": "node",
+		"esModuleInterop": true
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
 }

@@ -2,10 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from '@features/app/app.module';
 import { HttpExceptionFilter } from '@shared/filters/http-exception.filter';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import helmet from 'helmet';
+
+import { AppModule } from './app.module';
 
 async function server() {
   const app = await NestFactory.create(AppModule);

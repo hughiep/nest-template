@@ -1,36 +1,36 @@
 .PHONY: dev prod build logs clean
 
 # Development commands
-dev:
-	docker compose -f .docker/docker-compose.yml up
+dev-up:
+	docker compose -f .docker/compose.yml up -d db
 
 dev-build:
-	docker compose -f .docker/docker-compose.yml up --build
+	docker compose -f .docker/compose.yml up --build
 
 dev-down:
-	docker compose -f .docker/docker-compose.yml down
+	docker compose -f .docker/compose.yml down
 
 # Production commands
 prod:
-	docker compose -f .docker/docker-compose.prod.yml up -d
+	docker compose -f .docker/compose.prod.yml up -d
 
 prod-build:
-	docker compose -f .docker/docker-compose.prod.yml up -d --build
+	docker compose -f .docker/compose.prod.yml up -d --build
 
 prod-down:
-	docker compose -f .docker/docker-compose.prod.yml down
+	docker compose -f .docker/compose.prod.yml down
 
 # Utility commands
 logs:
-	docker compose -f .docker/docker-compose.prod.yml logs -f
+	docker compose -f .docker/compose.prod.yml logs -f
 
 ps:
-	docker compose -f .docker/docker-compose.prod.yml ps
+	docker compose -f .docker/compose.prod.yml ps
 
 # Cleanup commands
 clean:
-	docker compose -f .docker/docker-compose.prod.yml down -v
-	docker compose -f .docker/docker-compose.yml down -v
+	docker compose -f .docker/compose.prod.yml down -v
+	docker compose -f .docker/compose.yml down -v
 	docker system prune -f
 
 # Help command

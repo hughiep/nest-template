@@ -6,9 +6,9 @@ import { HttpLoggerMiddleware } from '@core/logger/http-logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseModule } from '@core/config/database.module';
 
-import { AppEntity } from './app.entity';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppEntity } from './features/app/app.entity';
+import { AppController } from './features/app/app.controller';
+import { AppService } from './features/app/app.service';
 
 @Module({
   imports: [

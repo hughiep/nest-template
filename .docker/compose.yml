@@ -10,21 +10,25 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nest_db
     depends_on:
-      - postgres
+      - db
     volumes:
       - ../logs:/app/logs
 
-  postgres:
+  db:
     container_name: nest-template-db
-    image: postgres:15-alpine
+    image: postgres:17-alpine
+    # env_file: .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: nest_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    # Compose seems not properly read the relative path for the .env file
     ports:
       - "5432:5432"
+    # Executing a command to check if the env variables are set
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data # Mounting the volume to persist data
 
+# Top-level volumes use to define named volumes
 volumes:
   postgres_data:

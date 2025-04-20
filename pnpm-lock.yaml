@@ -44,6 +44,9 @@ importers:
       class-validator:
         specifier: ^0.14.1
         version: 0.14.1
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       helmet:
         specifier: ^8.1.0
         version: 8.1.0
@@ -68,6 +71,9 @@ importers:
       typeorm:
         specifier: ^0.3.22
         version: 0.3.22(pg@8.14.1)(reflect-metadata@0.2.2)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.8.3))
+      typeorm-naming-strategies:
+        specifier: ^4.1.0
+        version: 4.1.0(typeorm@0.3.22(pg@8.14.1)(reflect-metadata@0.2.2)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.8.3)))
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -1732,6 +1738,10 @@ packages:
 
   dotenv@16.4.7:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+    engines: {node: '>=12'}
+
+  dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
     engines: {node: '>=12'}
 
   dotenv@8.6.0:
@@ -3798,6 +3808,11 @@ packages:
   typeorm-cli@1.0.7:
     resolution: {integrity: sha512-BJ/F728MZFfkS+2HREdB+KqAEUuvmlzUlJdcUdH0KP+2h9bVEmcPDSjeMFXssWZoHsmtrny/8iI9Sshrx7UTGg==}
     hasBin: true
+
+  typeorm-naming-strategies@4.1.0:
+    resolution: {integrity: sha512-vPekJXzZOTZrdDvTl1YoM+w+sUIfQHG4kZTpbFYoTsufyv9NIBRe4Q+PdzhEAFA2std3D9LZHEb1EjE9zhRpiQ==}
+    peerDependencies:
+      typeorm: ^0.2.0 || ^0.3.0
 
   typeorm@0.2.45:
     resolution: {integrity: sha512-c0rCO8VMJ3ER7JQ73xfk0zDnVv0WDjpsP6Q1m6CVKul7DB9iVdWLRjPzc8v2eaeBuomsbZ2+gTaYr8k1gm3bYA==}
@@ -5950,9 +5965,11 @@ snapshots:
 
   dotenv-expand@12.0.1:
     dependencies:
-      dotenv: 16.4.7
+      dotenv: 16.5.0
 
   dotenv@16.4.7: {}
+
+  dotenv@16.5.0: {}
 
   dotenv@8.6.0: {}
 
@@ -8371,6 +8388,10 @@ snapshots:
       - supports-color
       - typeorm-aurora-data-api-driver
 
+  typeorm-naming-strategies@4.1.0(typeorm@0.3.22(pg@8.14.1)(reflect-metadata@0.2.2)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.8.3))):
+    dependencies:
+      typeorm: 0.3.22(pg@8.14.1)(reflect-metadata@0.2.2)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.8.3))
+
   typeorm@0.2.45(pg@8.14.1):
     dependencies:
       '@sqltools/formatter': 1.2.5
@@ -8403,7 +8424,7 @@ snapshots:
       buffer: 6.0.3
       dayjs: 1.11.13
       debug: 4.4.0
-      dotenv: 16.4.7
+      dotenv: 16.5.0
       glob: 10.4.5
       reflect-metadata: 0.2.2
       sha.js: 2.4.11

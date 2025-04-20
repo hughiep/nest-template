@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
   imports: [
@@ -15,11 +16,21 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: configService.get<string>('DB_PASSWORD', 'postgres'),
         database: configService.get<string>('DB_NAME', 'nest_db'),
         autoLoadEntities: true,
-        synchronize: configService.get<string>('NODE_ENV') !== 'production', // Disable in production
+        synchronize: configService.get<string>('NODE_ENV') !== 'production',
+        namingStrategy: new SnakeNamingStrategy(),
+        ssl:
+          configService.get<string>('NODE_ENV') === 'production'
+            ? { rejectUnauthorized: false }
+            : false,
         extra: {
-          max: 10, // Maximum number of connections in the pool
-          idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
+          max: configService.get<number>('DB_MAX_CONNECTIONS', 10),
+          idleTimeoutMillis: 30000,
+          charset: 'utf8',
         },
+        retryAttempts: 3,
+        retryDelay: 3000,
+        keepConnectionAlive: true,
+        logging: configService.get<string>('NODE_ENV') !== 'production',
       }),
     }),
   ],

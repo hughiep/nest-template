@@ -9,10 +9,12 @@
 		"pnpm": ">=10"
 	},
 	"scripts": {
-		"typeorm": "typeorm",
-		"migration:generate": "typeorm migration:generate -n",
-		"migration:run": "typeorm migration:run",
-		"migration:revert": "typeorm migration:revert",
+		"typeorm": "typeorm-ts-node-commonjs",
+		"migration:create": "npm run typeorm migration:create",
+		"migration:generate": "npm run typeorm migration:generate -- -d src/core/config/data-source.ts",
+		"migration:run": "npm run build && npm run typeorm migration:run -- -d src/core/config/data-source.ts",
+		"migration:revert": "npm run typeorm migration:revert -- -d src/core/config/data-source.ts",
+		"migration:show": "npm run typeorm migration:show -- -d src/core/config/data-source.ts",
 		"build": "nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
 		"start": "nest start",
@@ -40,6 +42,7 @@
 		"@types/morgan": "^1.9.9",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.14.1",
+		"dotenv": "^16.5.0",
 		"helmet": "^8.1.0",
 		"morgan": "^1.10.0",
 		"nest-winston": "^1.10.2",
@@ -48,6 +51,7 @@
 		"rxjs": "^7.8.2",
 		"swagger-ui-express": "^5.0.1",
 		"typeorm": "^0.3.22",
+		"typeorm-naming-strategies": "^4.1.0",
 		"winston": "^3.17.0"
 	},
 	"devDependencies": {

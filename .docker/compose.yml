@@ -17,6 +17,8 @@ services:
   db:
     container_name: nest-template-db
     image: postgres:17-alpine
+    # Docker Compose will automatically look for a .env file in the same directory as the docker-compose.yml file
+    # and load the environment variables from it
     # env_file: .env
     environment:
       POSTGRES_USER: ${DB_USER}

@@ -1,4 +1,4 @@
-import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export enum NodeEnv {
   Development = 'development',
@@ -50,4 +50,14 @@ export class EnvironmentVariables {
 
   @IsString()
   DB_NAME: string;
+
+  @IsNumber()
+  @IsOptional()
+  @Min(1)
+  DB_MAX_CONNECTIONS: number = 10;
+
+  @IsNumber()
+  @IsOptional()
+  @Min(1)
+  DB_POOL_TIMEOUT: number = 30000;
 }

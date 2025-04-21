@@ -60,4 +60,22 @@ export class EnvironmentVariables {
   @IsOptional()
   @Min(1)
   DB_POOL_TIMEOUT: number = 30000;
+
+  // JWT Configuration
+  @IsString()
+  @IsOptional()
+  JWT_SECRET: string = 'your-jwt-secret-key-change-in-production';
+
+  @IsString()
+  @IsOptional()
+  JWT_REFRESH_SECRET: string =
+    'your-jwt-refresh-secret-key-change-in-production';
+
+  @IsString()
+  @IsOptional()
+  JWT_EXPIRATION: string = '15m';
+
+  @IsString()
+  @IsOptional()
+  JWT_REFRESH_EXPIRATION: string = '7d';
 }

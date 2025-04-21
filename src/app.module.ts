@@ -3,12 +3,10 @@ import { CoreModule } from '@core/core.module';
 import { SharedModule } from '@shared/shared.module';
 import { HealthModule } from '@features/health/health.module';
 import { HttpLoggerMiddleware } from '@core/logger/http-logger.middleware';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseModule } from '@core/config/database.module';
 
-import { AppEntity } from './features/app/app.entity';
-import { AppController } from './features/app/app.controller';
-import { AppService } from './features/app/app.service';
+import { UsersModule } from './features/users/users.module';
+import { AuthModule } from './features/auth/auth.module';
 
 @Module({
   imports: [
@@ -16,10 +14,11 @@ import { AppService } from './features/app/app.service';
     SharedModule,
     HealthModule,
     DatabaseModule,
-    TypeOrmModule.forFeature([AppEntity]),
+    UsersModule,
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

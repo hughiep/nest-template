@@ -4,9 +4,10 @@ import {
   IsOptional,
   IsString,
   MinLength,
+  IsEnum,
 } from 'class-validator';
 
-import { UserRole } from '../user.entity';
+import { UserRole, AuthProvider } from '../user.entity';
 
 export class CreateUserDto {
   @IsEmail()
@@ -18,12 +19,24 @@ export class CreateUserDto {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MinLength(8)
-  password: string;
+  password?: string;
 
   @IsOptional()
   role?: UserRole;
+
+  @IsOptional()
+  @IsEnum(AuthProvider)
+  provider?: AuthProvider;
+
+  @IsOptional()
+  @IsString()
+  providerId?: string;
+
+  @IsOptional()
+  @IsString()
+  pictureUrl?: string;
 }
 
 export class UpdateUserDto {
@@ -35,6 +48,18 @@ export class UpdateUserDto {
   @IsString()
   @MinLength(8)
   password?: string;
+
+  @IsOptional()
+  @IsEnum(AuthProvider)
+  provider?: AuthProvider;
+
+  @IsOptional()
+  @IsString()
+  providerId?: string;
+
+  @IsOptional()
+  @IsString()
+  pictureUrl?: string;
 }
 
 export class UserResponseDto {
@@ -43,4 +68,6 @@ export class UserResponseDto {
   name: string;
   role: UserRole;
   isActive: boolean;
+  provider: AuthProvider;
+  pictureUrl?: string;
 }

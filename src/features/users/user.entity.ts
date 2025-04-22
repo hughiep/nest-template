@@ -12,6 +12,11 @@ export enum UserRole {
   USER = 'user',
 }
 
+export enum AuthProvider {
+  LOCAL = 'local',
+  GOOGLE = 'google',
+}
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
@@ -23,7 +28,7 @@ export class User {
   @Column({ length: 100 })
   name: string;
 
-  @Column({ select: false })
+  @Column({ select: false, nullable: true })
   password: string;
 
   @Column({
@@ -38,6 +43,19 @@ export class User {
 
   @Column({ nullable: true })
   refreshToken?: string;
+
+  @Column({
+    type: 'enum',
+    enum: AuthProvider,
+    default: AuthProvider.LOCAL,
+  })
+  provider: AuthProvider;
+
+  @Column({ nullable: true })
+  providerId: string;
+
+  @Column({ nullable: true })
+  pictureUrl: string;
 
   @BeforeInsert()
   @BeforeUpdate()
@@ -56,7 +74,7 @@ export class User {
   }
 
   async validatePassword(password: string): Promise<boolean> {
-    if (!bcrypt) return false;
+    if (!bcrypt || !this.password) return false;
 
     try {
       return await bcrypt.compare(password, this.password);

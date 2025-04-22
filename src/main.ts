@@ -5,6 +5,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from '@shared/filters/http-exception.filter';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import helmet from 'helmet';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 
@@ -15,6 +17,23 @@ async function server() {
   // Security
   app.use(helmet());
   app.useGlobalGuards(app.get(ThrottlerGuard));
+
+  // Configure cookie parser
+  app.use(cookieParser());
+
+  // Setup express-session middleware
+  app.use(
+    session({
+      secret: configService.get('JWT_SECRET'), // Use your existing JWT secret
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: configService.get('NODE_ENV') === 'production', // Use secure cookies in production
+        maxAge: 60 * 60 * 1000, // 1 hour session timeout
+      },
+    }),
+  );
 
   // Apply global pipes and filters
   app.useGlobalPipes(

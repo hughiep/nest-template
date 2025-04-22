@@ -60,7 +60,7 @@ export class UsersController {
   }
 
   private mapToUserResponseDto(user: User): UserResponseDto {
-    const { id, email, name, role, isActive } = user;
-    return { id, email, name, role, isActive };
+    const { id, email, name, role, isActive, provider, pictureUrl } = user;
+    return { id, email, name, role, isActive, provider, pictureUrl };
   }
 }

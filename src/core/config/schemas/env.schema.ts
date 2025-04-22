@@ -1,4 +1,11 @@
-import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
+  Min,
+} from 'class-validator';
 
 export enum NodeEnv {
   Development = 'development',
@@ -78,4 +85,22 @@ export class EnvironmentVariables {
   @IsString()
   @IsOptional()
   JWT_REFRESH_EXPIRATION: string = '7d';
+
+  // Google OAuth Configuration
+  @IsString()
+  @IsOptional()
+  GOOGLE_CLIENT_ID: string;
+
+  @IsString()
+  @IsOptional()
+  GOOGLE_CLIENT_SECRET: string;
+
+  @IsUrl({ require_tld: false })
+  @IsOptional()
+  GOOGLE_CALLBACK_URL: string =
+    'http://localhost:5005/api/auth/google/callback';
+
+  @IsUrl({ require_tld: false })
+  @IsOptional()
+  FRONTEND_URL: string = 'http://localhost:3000';
 }

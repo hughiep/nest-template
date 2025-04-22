@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import bcrypt from 'bcryptjs';
 
 import { UsersService } from '../users/users.service';
-import { User } from '../users/user.entity';
+import { User, AuthProvider } from '../users/user.entity';
 
 import { LoginDto, RegisterDto, TokensDto } from './dto/auth.dto';
 import { JwtPayload } from './strategies/jwt.strategy';
@@ -81,7 +81,49 @@ export class AuthService {
     await this.usersService.updateRefreshToken(userId, null);
   }
 
-  private async generateTokens(user: User): Promise<TokensDto> {
+  async validateOAuthUser(userDetails: {
+    email: string;
+    name: string;
+    pictureUrl: string;
+    providerId: string;
+  }): Promise<User> {
+    const { email, name, pictureUrl, providerId } = userDetails;
+    let user = await this.usersService.findByEmail(email);
+
+    if (user) {
+      // If user exists but was registered through a different method
+      if (user.provider !== AuthProvider.GOOGLE) {
+        // Update user to link with Google account
+        user = await this.usersService.update(user.id, {
+          provider: AuthProvider.GOOGLE,
+          providerId,
+          pictureUrl,
+          // Don't update name if it already exists
+          ...(user.name ? {} : { name }),
+        });
+      } else {
+        // Update existing Google user with latest info
+        user = await this.usersService.update(user.id, {
+          pictureUrl,
+          providerId,
+        });
+      }
+    } else {
+      // Create a new user if they don't exist
+      user = await this.usersService.create({
+        email,
+        name,
+        pictureUrl,
+        provider: AuthProvider.GOOGLE,
+        providerId,
+      });
+    }
+
+    return user;
+  }
+
+  // Changed from private to public so it can be used in the controller
+  async generateTokens(user: User): Promise<TokensDto> {
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,

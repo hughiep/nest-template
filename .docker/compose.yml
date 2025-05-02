@@ -1,12 +1,15 @@
 services:
   api:
+    image: nest-template
     container_name: nest-template-api
     build:
       context: ../
       target: runner
       dockerfile: .docker/Dockerfile
     ports:
-      - "5000:5000"
+      - "5005:5005"
+    env_file:
+      - ../.env
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nest_db
     depends_on:
@@ -20,6 +23,8 @@ services:
     # Docker Compose will automatically look for a .env file in the same directory as the docker-compose.yml file
     # and load the environment variables from it
     # env_file: .env
+    env_file:
+      - ../.env
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}

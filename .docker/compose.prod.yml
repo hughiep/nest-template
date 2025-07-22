@@ -4,27 +4,32 @@ services:
       context: ../
       dockerfile: .docker/Dockerfile
     ports:
-      - "5000:5000"
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nest_db
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
     volumes:
       - ../logs:/app/logs
     depends_on:
       - postgres
-    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - app-network
 
   postgres:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: nest_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -33,7 +38,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
   app_logs:
+
+# By default, Docker Compose creates a default network, but using custom networks provides several benefits:
+# Without custom network - all containers can talk to each other
+# With custom network - only specified containers can communicate
+networks:
+  app-network:
+    driver: bridge

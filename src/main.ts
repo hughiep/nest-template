@@ -59,9 +59,9 @@ async function server() {
 
   // Swagger configuration
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
-    .setDescription('The NestJS API description')
-    .setVersion('1.0')
+    .setTitle(configService.get('API_TITLE'))
+    .setDescription(configService.get('API_DESCRIPTION'))
+    .setVersion(configService.get('API_VERSION'))
     .addBearerAuth(
       {
         type: 'http',

@@ -18,10 +18,11 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
         autoLoadEntities: true,
         synchronize: configService.get<string>('NODE_ENV') !== 'production',
         namingStrategy: new SnakeNamingStrategy(),
-        ssl:
-          configService.get<string>('NODE_ENV') === 'production'
-            ? { rejectUnauthorized: false }
-            : false,
+        // ssl:
+        //   configService.get<string>('NODE_ENV') === 'production'
+        //     ? { rejectUnauthorized: false }
+        //     : false,
+        ssl: false, // Disable SSL for local development
         extra: {
           max: configService.get<number>('DB_MAX_CONNECTIONS', 10),
           idleTimeoutMillis: 30000,

@@ -22,11 +22,11 @@ export class SeedFirstSysadmin1749824290893 implements MigrationInterface {
           name,
           password,
           role,
-          "isActive",
+          is_active,
           provider,
-          "providerId",
-          "pictureUrl",
-          "refreshToken"
+          provider_id,
+          picture_url,
+          refresh_token
         ) VALUES (
           $1, $2, $3, $4, $5, $6, $7, $8, $9
         )

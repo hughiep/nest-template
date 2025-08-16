@@ -32,7 +32,6 @@ COPY . .
 
 # Build application
 RUN npm run build
-RUN npm run migration:run
 
 FROM base AS runner
 

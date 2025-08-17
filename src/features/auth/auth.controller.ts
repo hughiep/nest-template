@@ -95,8 +95,25 @@ export class AuthController {
       },
     },
   })
-  async login(@Body() loginDto: LoginDto): Promise<TokensDto> {
-    return this.authService.login(loginDto);
+  async login(@Res() res: Response, @Body() loginDto: LoginDto) {
+    const tokens = await this.authService.login(loginDto);
+    res.cookie('access_token', tokens.accessToken, {
+      httpOnly: true,
+      secure: this.configService.get('NODE_ENV') === 'production',
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+
+    // Set refresh token in HttpOnly cookie
+    res.cookie('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      secure: this.configService.get('NODE_ENV') === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      path: '/auth/refresh',
+    });
+
+    res.status(HttpStatus.OK).json(tokens); // NestJS will automatically send this as JSON response
   }
 
   @Get('google')
